@@ -1,0 +1,9 @@
+**/logs/
+*.drawio
+*.ipynb
+*.env
+**/data/
+__pycache__/
+*.jar
+*.pyc
+*.crswap

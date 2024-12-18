@@ -1,0 +1,33 @@
+name: 'dbt_ecom'
+version: '1.0.0'
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'cdoge25-snowflake-ecom'
+
+# These configurations specify where dbt should look for different types of files.
+# The `model-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+models:
+  dbt_ecom:
+    staging:
+      +schema: staging
+      +materialized: view
+    intermediate:
+      +schema: intermediate
+      +materialized: ephemeral
+    marts:
+      +schema: marts
+      +materialized: incremental
+      +post-hook:
+        - "GRANT SELECT ON {{ this }} TO ROLE REPORTER"
